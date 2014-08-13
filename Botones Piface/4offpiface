@@ -1,0 +1,24 @@
+#! /usr/bin/python
+
+#FALTA OPTIMIZAR CONSUMO DEL LOOP Y LIBERAR EL SHUTDOWN
+
+# Demonio presente para apagar RaspBerryPi con Piface Display&Control  Boton 4
+# Importar la libreria Time, PiFace y del OS (Bash)
+import pifacecad
+import time
+import os
+cad = pifacecad.PiFaceCAD()
+#Si es pulsado el boton 4 del PiFace enciende LCD, da aviso y apaga RaspBerryPi
+while True:
+	if cad.switches[4].value != 0:
+		cad.lcd.clear()
+		cad.lcd.blink_off()
+		cad.lcd.cursor_off()
+		cad.lcd.backlight_on()
+		cad.lcd.write("POWER OFF....!!!  ======================================")
+		time.sleep(3)
+		os.system('sudo shutdown -h now')
+		cad.lcd.home()
+		cad.lcd.backlight_off()
+		cad.lcd.clear()
+
